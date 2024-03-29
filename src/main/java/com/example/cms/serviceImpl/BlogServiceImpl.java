@@ -33,13 +33,13 @@ public class BlogServiceImpl implements BlogService{
 		return userRepo.findById(userId).map(user -> {
 			if(!blogRequest.getTitle().matches("[a-zA-Z ]+") || blogRequest.getTitle()==null)
 				throw new TitleAlphabetsOnlyException("Faild to create blog");
-				
+
 			if(blogRepo.existsByTitle(blogRequest.getTitle()))
 				throw new TitleAlreadyExistsException("Faild to create blog");
-			
+
 			if(blogRequest.getTopics().length<1)
 				throw new TopicsNotSpecifiedException("Faild to create blog");
-			
+
 			Blog blog = mapToBlogEntity(blogRequest, new Blog());
 			blog.getUsers().add(user);
 			blog = blogRepo.save(blog);
@@ -64,7 +64,7 @@ public class BlogServiceImpl implements BlogService{
 				blog.getTopics(),
 				blog.getAbout());
 	}
-	
+
 	@Override
 	public ResponseEntity<ResponseStructure<Boolean>> checkForBlog(String title) {
 		return ResponseEntity.ok(new ResponseStructure<Boolean>()
@@ -77,10 +77,34 @@ public class BlogServiceImpl implements BlogService{
 	public ResponseEntity<ResponseStructure<BlogResponse>> findByBlogId(int blogId) {
 		return blogRepo.findById(blogId).map(blog -> {
 			return ResponseEntity.ok(responseStructure
-				.setStatus(HttpStatus.FOUND.value())
-				.setMessage("Blog found successfully")
-				.setBody(mapToBlogResponse(blog))
-			);
+					.setStatus(HttpStatus.FOUND.value())
+					.setMessage("Blog found successfully")
+					.setBody(mapToBlogResponse(blog))
+					);
 		}).orElseThrow(()->new BlogNotFoundByIdException("Blog not Found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogResponse>> updateBlog(int blogId, BlogRequest blogRequest) {
+		return blogRepo.findById(blogId).map(blog -> {
+			validateBlogRequest(blogRequest);
+			blog = blogRepo.save(mapToBlogEntity(blogRequest, blog));
+			return ResponseEntity.ok(responseStructure
+					.setStatus(HttpStatus.OK.value())
+					.setMessage("Blog updated successfully")
+					.setBody(mapToBlogResponse(blog)));
+		}).orElseThrow(()-> new BlogNotFoundByIdException("Faild to update blog"));
+	}
+
+	private void validateBlogRequest(BlogRequest blogRequest) {
+		if(!blogRequest.getTitle().matches("[a-zA-Z ]+") || blogRequest.getTitle()==null)
+			throw new TitleAlphabetsOnlyException("Faild to update blog");
+
+		if(blogRepo.existsByTitle(blogRequest.getTitle()))
+			throw new TitleAlreadyExistsException("Faild to update blog");
+
+		if(blogRequest.getTopics().length<1)
+			throw new TopicsNotSpecifiedException("Faild to update blog");
+
 	}
 }
