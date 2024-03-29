@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.cms.exception.UserAlreadyExistByEmailException;
+import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.User;
 import com.example.cms.repo.UserRepository;
 import com.example.cms.requestdto.UserRequest;
@@ -54,5 +55,12 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
 		user.setUsername(userRequest.getUsername());
 		return user;
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> findByUserId(int userId) {
+		return userRepository.findById(userId).map(user -> ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+				.setMessage("User found successfully")
+				.setBody(mapToUserResponse(user)))).orElseThrow(()-> new UserNotFoundByIdException("User Not found"));
 	}
 }
