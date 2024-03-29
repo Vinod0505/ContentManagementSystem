@@ -10,8 +10,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,18 +18,11 @@ import lombok.Setter;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class Blog {
+public class ContributionPanel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int blogId;
-	private String title;
-	private String[] topics;
-	private String about;
-	@ManyToOne
-	private User user;
-	@OneToOne
-	private ContributionPanel contributionPanel;
-	
-	
+	private int panelId;
+	@ManyToMany
+	private List<User> users = new ArrayList<User>();
 }

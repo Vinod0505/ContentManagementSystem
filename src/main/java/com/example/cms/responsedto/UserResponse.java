@@ -1,20 +1,23 @@
 package com.example.cms.responsedto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
-@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Setter
 public class UserResponse {
 
 	private int userId;
-	private String username;
+	private String userName;
 	private String email;
 	private LocalDate createdAt;
-	private LocalDate lastModifiedAt;
+	private LocalDateTime lastModifiedAt;
 }
