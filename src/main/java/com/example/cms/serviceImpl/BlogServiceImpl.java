@@ -63,4 +63,12 @@ public class BlogServiceImpl implements BlogService{
 				blog.getTopics(),
 				blog.getAbout());
 	}
+	
+	@Override
+	public ResponseEntity<ResponseStructure<Boolean>> checkForBlog(String title) {
+		return ResponseEntity.ok(new ResponseStructure<Boolean>()
+				.setStatus(HttpStatus.OK.value())
+				.setMessage("Blog title details fetched successfully")
+				.setBody(blogRepo.existsByTitle(title)));
+	}
 }
