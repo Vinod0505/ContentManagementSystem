@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.cms.requestdto.BlogRequest;
 import com.example.cms.responsedto.BlogResponse;
 import com.example.cms.service.BlogService;
+import com.example.cms.utility.ErrorStructure;
 import com.example.cms.utility.ResponseStructure;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 @AllArgsConstructor
@@ -41,4 +44,16 @@ public class BlogController {
 	public ResponseEntity<ResponseStructure<Boolean>> checkForBlog(@PathVariable String title){
 		return blogService.checkForBlog(title);
 	}
+	
+	@Operation(description = "This endpoint will fetch blog from the database based on id", responses = {
+			@ApiResponse(responseCode = "200", description = "Blog found successfully"),
+			@ApiResponse(responseCode = "404", description = "Blog not exist by the given id", content = {
+					@Content(schema = @Schema(implementation = ErrorStructure.class))	
+			})
+	})
+	@GetMapping("/blogs/{blogId}")
+	public ResponseEntity<ResponseStructure<BlogResponse>> findByBlogId(@PathVariable int blogId){
+		return blogService.findByBlogId(blogId);
+	}
+
 }

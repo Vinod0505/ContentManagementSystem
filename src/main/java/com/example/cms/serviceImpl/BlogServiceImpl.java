@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.TitleAlphabetsOnlyException;
 import com.example.cms.exception.TitleAlreadyExistsException;
 import com.example.cms.exception.TopicsNotSpecifiedException;
@@ -70,5 +71,16 @@ public class BlogServiceImpl implements BlogService{
 				.setStatus(HttpStatus.OK.value())
 				.setMessage("Blog title details fetched successfully")
 				.setBody(blogRepo.existsByTitle(title)));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogResponse>> findByBlogId(int blogId) {
+		return blogRepo.findById(blogId).map(blog -> {
+			return ResponseEntity.ok(responseStructure
+				.setStatus(HttpStatus.FOUND.value())
+				.setMessage("Blog found successfully")
+				.setBody(mapToBlogResponse(blog))
+			);
+		}).orElseThrow(()->new BlogNotFoundByIdException("Blog not Found"));
 	}
 }
