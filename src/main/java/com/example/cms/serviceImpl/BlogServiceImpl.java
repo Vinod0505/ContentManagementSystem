@@ -30,19 +30,12 @@ public class BlogServiceImpl implements BlogService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(int userId, BlogRequest blogRequest) {
+		
 		return userRepo.findById(userId).map(user -> {
-			if(!blogRequest.getTitle().matches("[a-zA-Z ]+") || blogRequest.getTitle()==null)
-				throw new TitleAlphabetsOnlyException("Faild to create blog");
-
-			if(blogRepo.existsByTitle(blogRequest.getTitle()))
-				throw new TitleAlreadyExistsException("Faild to create blog");
-
-			if(blogRequest.getTopics().length<1)
-				throw new TopicsNotSpecifiedException("Faild to create blog");
-
+			validateBlogRequest(blogRequest);
 			Blog blog = mapToBlogEntity(blogRequest, new Blog());
-			blog.getUsers().add(user);
-			blog = blogRepo.save(blog);
+			blog.setUser(user);
+			blogRepo.save(blog);
 			return ResponseEntity.ok(responseStructure
 					.setStatus(HttpStatus.OK.value())
 					.setMessage("Blog created successfully")

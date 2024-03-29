@@ -10,7 +10,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,8 +26,8 @@ public class Blog {
 	private String title;
 	private String[] topics;
 	private String about;
-	@ManyToMany
-	private List<User> users = new ArrayList<User>();
+	@ManyToOne
+	private User user;
 	
 	
 }

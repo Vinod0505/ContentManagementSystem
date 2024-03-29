@@ -1,6 +1,8 @@
 package com.example.cms.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -12,6 +14,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +38,6 @@ public class User {
 	@LastModifiedBy
 	private LocalDate lastModifiedAt;
 	private boolean deleted;
-	
-	
+	@OneToMany(mappedBy = "user")
+	private List<Blog> blogs = new ArrayList<Blog>();
 	}
