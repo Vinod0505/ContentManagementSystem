@@ -1,11 +1,12 @@
 package com.example.cms.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -14,6 +15,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -29,15 +31,17 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
-	private String username;
+	private String userName;
 	private String email;
 	private String password;
 	@CreatedDate
 	@Column(updatable = false)
 	private LocalDate createdAt;
-	@LastModifiedBy
-	private LocalDate lastModifiedAt;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
 	private boolean deleted;
 	@OneToMany(mappedBy = "user")
 	private List<Blog> blogs = new ArrayList<Blog>();
+	@ManyToMany(mappedBy = "users")
+	private List<ContributionPanel> contributionPanels ;
 	}

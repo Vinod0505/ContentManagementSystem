@@ -1,5 +1,6 @@
 package com.example.cms.serviceImpl;
 
+import org.assertj.core.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,9 @@ import com.example.cms.exception.TitleAlreadyExistsException;
 import com.example.cms.exception.TopicsNotSpecifiedException;
 import com.example.cms.exception.UserNotFoundByIdException;
 import com.example.cms.model.Blog;
+import com.example.cms.model.ContributionPanel;
 import com.example.cms.repo.BlogRepo;
+import com.example.cms.repo.ContributionPanelRepo;
 import com.example.cms.repo.UserRepository;
 import com.example.cms.requestdto.BlogRequest;
 import com.example.cms.responsedto.BlogResponse;
@@ -26,6 +29,7 @@ public class BlogServiceImpl implements BlogService{
 	private UserRepository userRepo;
 	private BlogRepo blogRepo;
 	private ResponseStructure<BlogResponse> responseStructure;
+	private ContributionPanelRepo contributionPanelRepo;
 
 
 	@Override
@@ -33,6 +37,9 @@ public class BlogServiceImpl implements BlogService{
 		return userRepo.findById(userId).map(user -> {
 			validateBlogRequest(blogRequest);
 			Blog blog = mapToBlogEntity(blogRequest, new Blog());
+			ContributionPanel contributionPanel = new ContributionPanel();
+			contributionPanelRepo.save(contributionPanel);
+			blog.setContributionPanel(contributionPanel);
 			blog.setUser(user);
 			blogRepo.save(blog);
 			return ResponseEntity.ok(responseStructure

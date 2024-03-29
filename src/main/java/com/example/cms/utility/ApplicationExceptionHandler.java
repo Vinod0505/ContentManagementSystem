@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.IllegalAccessRequestException;
+import com.example.cms.exception.PanelNotFoundByIdException;
 import com.example.cms.exception.TitleAlphabetsOnlyException;
 import com.example.cms.exception.TitleAlreadyExistsException;
 import com.example.cms.exception.TopicsNotSpecifiedException;
@@ -61,12 +63,26 @@ public class ApplicationExceptionHandler {
 	public ResponseEntity<ErrorStructure<String>> handleTopicsNotSpecified(
 			TopicsNotSpecifiedException ex){
 		return errorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), 
-				"At list one topic has to be specified");
+				"Atleast one topic has to be specified");
 	}
 	
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure<String>> handleBlogNotFoundById(
 			BlogNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
+				"Blog not exists with the given Id");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handlePanelNotFoundByIdException(
+			PanelNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
+				"Blog not exists with the given Id");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleIllegalAccessRequestException(
+			IllegalAccessRequestException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
 				"Blog not exists with the given Id");
 	}

@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 	
 	private UserResponse mapToUserResponse(User user) {
 	    return new UserResponse(user.getUserId(), 
-	    		user.getUsername(),
+	    		user.getUserName(),
 	    		user.getEmail(),
 	    		user.getCreatedAt(),
 	    		user.getLastModifiedAt());
@@ -53,7 +53,8 @@ public class UserServiceImpl implements UserService {
 	private User mapToUserEntity(UserRequest userRequest, User user) {
 		user.setEmail(userRequest.getEmail());
 		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-		user.setUsername(userRequest.getUsername());
+		user.setUserName(userRequest.getUserName());
+		user.setDeleted(false);
 		return user;
 	}
 
@@ -67,5 +68,12 @@ public class UserServiceImpl implements UserService {
 					.setBody(mapToUserResponse(user))
 					);})
 		.orElseThrow(()-> new UserNotFoundByIdException("User Not Found"));
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> findByUserId(int userId) {
+		return userRepository.findById(userId).map(user -> ResponseEntity.ok(structure.setStatus(HttpStatus.OK.value())
+				.setMessage("User found successfully")
+				.setBody(mapToUserResponse(user)))).orElseThrow(()-> new UserNotFoundByIdException("User Not found"));
 	}
 }
