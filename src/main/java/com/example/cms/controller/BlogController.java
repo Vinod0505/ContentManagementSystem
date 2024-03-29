@@ -1,6 +1,7 @@
 package com.example.cms.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,5 +31,14 @@ public class BlogController {
 	@PostMapping("/users/{userId}/blogs")
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(@PathVariable int userId, @RequestBody BlogRequest blog){
 		return blogService.createBlog(userId, blog);
+	}
+	
+	@Operation(description = "This endpoint is used to check the blog title availability", responses = {
+			@ApiResponse(responseCode = "200", description = "Blog created successfully"),
+			@ApiResponse(responseCode = "400", description = "Invalid input")
+	})
+	@GetMapping("/titles/{title}/blogs")
+	public ResponseEntity<ResponseStructure<Boolean>> checkForBlog(@PathVariable String title){
+		return blogService.checkForBlog(title);
 	}
 }
