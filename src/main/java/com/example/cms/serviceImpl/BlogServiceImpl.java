@@ -30,7 +30,6 @@ public class BlogServiceImpl implements BlogService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<BlogResponse>> createBlog(int userId, BlogRequest blogRequest) {
-		
 		return userRepo.findById(userId).map(user -> {
 			validateBlogRequest(blogRequest);
 			Blog blog = mapToBlogEntity(blogRequest, new Blog());
