@@ -37,8 +37,7 @@ public class BlogServiceImpl implements BlogService{
 		return userRepo.findById(userId).map(user -> {
 			validateBlogRequest(blogRequest);
 			Blog blog = mapToBlogEntity(blogRequest, new Blog());
-			ContributionPanel contributionPanel = new ContributionPanel();
-			contributionPanelRepo.save(contributionPanel);
+			ContributionPanel contributionPanel = contributionPanelRepo.save(new ContributionPanel());
 			blog.setContributionPanel(contributionPanel);
 			blog.setUser(user);
 			blogRepo.save(blog);

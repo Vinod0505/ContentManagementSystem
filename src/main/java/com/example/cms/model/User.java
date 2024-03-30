@@ -42,6 +42,5 @@ public class User {
 	private boolean deleted;
 	@OneToMany(mappedBy = "user")
 	private List<Blog> blogs = new ArrayList<Blog>();
-	@ManyToMany(mappedBy = "users")
-	private List<ContributionPanel> contributionPanels ;
+	
 	}
