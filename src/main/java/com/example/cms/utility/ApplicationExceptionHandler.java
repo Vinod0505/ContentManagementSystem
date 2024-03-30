@@ -77,14 +77,14 @@ public class ApplicationExceptionHandler {
 	public ResponseEntity<ErrorStructure<String>> handlePanelNotFoundByIdException(
 			PanelNotFoundByIdException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
-				"Blog not exists with the given Id");
+				"Panel not exists with the given Id");
 	}
 	
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure<String>> handleIllegalAccessRequestException(
 			IllegalAccessRequestException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
-				"Blog not exists with the given Id");
+				"Illegal access");
 	}
 }
 
