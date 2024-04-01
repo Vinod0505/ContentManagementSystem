@@ -48,9 +48,6 @@ public class BlogPostServiceImpl implements BlogPostService{
 		blogPost.setTitle(blogPostRequest.getTitle());
 		blogPost.setSubTitle(blogPostRequest.getSubTitle());
 		blogPost.setSummary(blogPostRequest.getSummary());
-		blogPost.setSeoTitle(blogPostRequest.getSeoTitle());
-		blogPost.setSeoDescription(blogPostRequest.getSeoDescription());
-		blogPost.setSeoTopics(blogPostRequest.getSeoTopics());
 		return blogPost;
 	}
 
@@ -60,10 +57,7 @@ public class BlogPostServiceImpl implements BlogPostService{
 				blogPost.getTitle(),
 				blogPost.getSubTitle(),
 				blogPost.getSummary(),
-				blogPost.getPostType(),
-				blogPost.getSeoTitle(),
-				blogPost.getSeoDescription(),
-				blogPost.getSeoTopics()
+				blogPost.getPostType()
 				);
 
 	}

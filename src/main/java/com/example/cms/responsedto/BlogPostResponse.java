@@ -14,7 +14,7 @@ public class BlogPostResponse {
 	private String subTitle;
 	private  String summary;
 	private PostType postType;
-	private String seoTitle;
-	private String seoDescription;
-	private String[] seoTopics;
+//	private String seoTitle;
+//	private String seoDescription;
+//	private String[] seoTopics;
 }

@@ -17,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,13 +30,15 @@ public class BlogPost {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int blogPostId;
+	@NotNull
 	private String title;
 	private String subTitle;
+	@Column(length = 2500)
 	private  String summary;
 	private PostType postType;
-	private String seoTitle;
-	private String seoDescription;
-	private String[] seoTopics;
+//	private String seoTitle;
+//	private String seoDescription;
+//	private String[] seoTopics;
 	@ManyToOne
 	private Blog blog;
 	@CreatedBy
