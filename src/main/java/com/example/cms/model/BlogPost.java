@@ -1,9 +1,16 @@
 package com.example.cms.model;
 
+import java.time.LocalDateTime; 
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.example.cms.enums.PostType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -31,5 +38,14 @@ public class BlogPost {
 	private String[] seoTopics;
 	@ManyToOne
 	private Blog blog;
+	@CreatedBy
+	private String createdBy;
+	@CreatedDate
+	@Column(updatable = false)
+	private LocalDateTime createdAt;
+	@LastModifiedBy
+	private String lastModifiedBy;
+	@LastModifiedDate
+	private LocalDateTime lastModifiedAt;
 	
 }
