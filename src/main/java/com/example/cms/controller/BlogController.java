@@ -39,7 +39,9 @@ public class BlogController {
 	
 	@Operation(description = "This endpoint is used to check the blog title availability", responses = {
 			@ApiResponse(responseCode = "200", description = "Blog created successfully"),
-			@ApiResponse(responseCode = "400", description = "Invalid input")
+			@ApiResponse(responseCode = "400", description = "Invalid input", content = {
+					@Content(schema = @Schema(implementation = ErrorStructure.class))	
+			})
 	})
 	@GetMapping("/titles/{title}/blogs")
 	public ResponseEntity<ResponseStructure<Boolean>> checkForBlog(@PathVariable String title){
@@ -60,7 +62,9 @@ public class BlogController {
 	
 	@Operation(description = "This endpoint is used to update blog in the database", responses = {
 			@ApiResponse(responseCode = "200", description = "Blog updated successfully"),
-			@ApiResponse(responseCode = "400", description = "Invalid input")
+			@ApiResponse(responseCode = "400", description = "Invalid input", content = {
+					@Content(schema = @Schema(implementation = ErrorStructure.class))	
+			})
 	})
 	@PutMapping("/blogs/{blogId}")
 	public ResponseEntity<ResponseStructure<BlogResponse>> updateBlog(@PathVariable int blogId, @RequestBody BlogRequest blog){

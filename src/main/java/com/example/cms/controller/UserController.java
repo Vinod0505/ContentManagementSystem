@@ -37,7 +37,9 @@ public class UserController {
 	
 	@Operation(description = "This endpoint is used to delete user temporarly", responses = {
 			@ApiResponse(responseCode = "200", description = "User deleted successfully"),
-			@ApiResponse(responseCode = "404", description = "User not exist with given ID")
+			@ApiResponse(responseCode = "404", description = "User not exist with given ID", content = {
+					@Content(schema = @Schema(implementation = ErrorStructure.class))	
+			})
 	})
 	@DeleteMapping("/users/{userId}")
 	public ResponseEntity<ResponseStructure<UserResponse>> deleteUser(@PathVariable int userId){
