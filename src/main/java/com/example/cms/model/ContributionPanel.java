@@ -1,6 +1,6 @@
 package com.example.cms.model;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -24,5 +24,5 @@ public class ContributionPanel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int panelId;
 	@ManyToMany
-	private List<User> users = new ArrayList<User>();
+	private List<User> contributors = new ArrayList<User>();
 }
