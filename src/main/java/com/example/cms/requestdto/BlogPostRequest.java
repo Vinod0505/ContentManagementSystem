@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BlogPostRequest {
-
+	
 	private String title;
 	private String subTitle;
 	private String summary;

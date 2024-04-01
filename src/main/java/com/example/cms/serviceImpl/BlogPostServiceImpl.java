@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.model.BlogPost;
 import com.example.cms.repo.BlogPostRepo;
 import com.example.cms.repo.BlogRepo;
@@ -60,6 +61,21 @@ public class BlogPostServiceImpl implements BlogPostService{
 				blogPost.getPostType()
 				);
 
+	}
+
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogPostResponse>> updateDraft(BlogPostRequest blogPostRequest,
+			int blogPostId) {
+		return blogPostRepo.findById(blogPostId).map(blogPost->{
+			blogPost=blogPostRepo.save(mapToBlogPostEntity(blogPostRequest, blogPost));
+			return ResponseEntity.ok(
+					responseStructure.setStatus(HttpStatus.OK.value())
+					.setMessage("BlogPost draft updated successfully")
+					.setBody(mapToBlogPostResponse(blogPost))
+					);
+
+		}).orElseThrow(()-> new BlogPostNotFoundByIdException("BlogPost Not Found"));
 	}
 
 }

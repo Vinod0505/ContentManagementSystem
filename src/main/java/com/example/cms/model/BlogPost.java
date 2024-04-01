@@ -30,7 +30,6 @@ public class BlogPost {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int blogPostId;
-	@NotNull
 	private String title;
 	private String subTitle;
 	@Column(length = 2500)

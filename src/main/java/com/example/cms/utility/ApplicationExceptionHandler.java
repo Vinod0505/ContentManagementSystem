@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.example.cms.exception.BlogNotFoundByIdException;
+import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.exception.IllegalAccessRequestException;
 import com.example.cms.exception.PanelNotFoundByIdException;
 import com.example.cms.exception.TitleAlphabetsOnlyException;
@@ -85,6 +86,13 @@ public class ApplicationExceptionHandler {
 			IllegalAccessRequestException ex){
 		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
 				"Illegal access");
+	}
+	
+	@ExceptionHandler
+	public ResponseEntity<ErrorStructure<String>> handleBlogPostNotFoundByIdException(
+			BlogPostNotFoundByIdException ex){
+		return errorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), 
+				"BlogPost not exists with the given Id");
 	}
 }
 
