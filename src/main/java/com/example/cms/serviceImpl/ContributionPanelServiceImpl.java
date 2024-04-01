@@ -41,8 +41,8 @@ public class ContributionPanelServiceImpl implements ContributionPanelService{
 				if(!blogRepo.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("failed to add contributor");
 				return userRepo.findById(userId).map(contributor->{
-					if(!panel.getUsers().contains(contributor)) {
-						panel.getUsers().add(contributor);
+					if(!panel.getContributors().contains(contributor)) {
+						panel.getContributors().add(contributor);
 					contributionPanelRepo.save(panel);
 					}	return ResponseEntity.ok(responseStructure.setStatus(HttpStatus.OK.value())
 							.setMessage("Contributor added succesffuly")
@@ -65,7 +65,7 @@ public class ContributionPanelServiceImpl implements ContributionPanelService{
 				if(!blogRepo.existsByUserAndContributionPanel(owner, panel))
 					throw new IllegalAccessRequestException("failed to remove contributor");
 				return userRepo.findById(userId).map(contributor->{
-					panel.getUsers().remove(contributor);
+					panel.getContributors().remove(contributor);
 					contributionPanelRepo.save(panel);
 					return ResponseEntity.ok(responseStructure.setStatus(HttpStatus.OK.value())
 							.setMessage("Contributor removed succesffuly")
