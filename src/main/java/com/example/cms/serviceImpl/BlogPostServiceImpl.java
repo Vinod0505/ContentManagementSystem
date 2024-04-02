@@ -1,16 +1,16 @@
 package com.example.cms.serviceImpl;
 
-import org.springframework.http.HttpStatus; 
+import org.springframework.http.HttpStatus;  
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.example.cms.enums.PostType;
 import com.example.cms.exception.BlogNotFoundByIdException;
 import com.example.cms.exception.BlogPostNotFoundByIdException;
 import com.example.cms.exception.IllegalAccessRequestException;
 import com.example.cms.model.Blog;
 import com.example.cms.model.BlogPost;
-import com.example.cms.model.User;
 import com.example.cms.repo.BlogPostRepo;
 import com.example.cms.repo.BlogRepo;
 import com.example.cms.repo.ContributionPanelRepo;
@@ -56,7 +56,7 @@ public class BlogPostServiceImpl implements BlogPostService{
 	private boolean validateUser(Blog blog) {
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		return userRepository.findByEmail(email).map( user -> 
-		email.equals(user.getEmail())||panelRepo.existsByPanelIdAndContributors(blog.getContributionPanel(),user)).orElse(false);
+		email.equals(blog.getUser().getEmail())|| panelRepo.existsByPanelIdAndContributors(blog.getContributionPanel().getPanelId(),user)).orElse(false);
 	}
 
 
@@ -64,6 +64,7 @@ public class BlogPostServiceImpl implements BlogPostService{
 		blogPost.setTitle(blogPostRequest.getTitle());
 		blogPost.setSubTitle(blogPostRequest.getSubTitle());
 		blogPost.setSummary(blogPostRequest.getSummary());
+		blogPost.setPostType(PostType.DRAFT);
 		return blogPost;
 	}
 
@@ -73,7 +74,11 @@ public class BlogPostServiceImpl implements BlogPostService{
 				blogPost.getTitle(),
 				blogPost.getSubTitle(),
 				blogPost.getSummary(),
-				blogPost.getPostType()
+				blogPost.getPostType(),
+				blogPost.getCreatedAt(),
+				blogPost.getCreatedBy(),
+				blogPost.getLastModifiedAt(),
+				blogPost.getLastModifiedBy()
 				);
 
 	}

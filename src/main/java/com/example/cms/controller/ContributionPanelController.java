@@ -36,7 +36,7 @@ public class ContributionPanelController {
 			@ApiResponse(responseCode = "200", description = "User removed successfully from contributionPanel"),
 			@ApiResponse(responseCode = "404", description = "Failed to remove user from contributionPanel", content = {
 					@Content(schema = @Schema(implementation = ErrorStructure.class))	
-			})
+			})	
 	})
 	@DeleteMapping("/users/{userId}/contribution-panels/{panelId}")
 	public ResponseEntity<ResponseStructure<ContributionPanelResponse>> removeUser(@PathVariable int userId,@PathVariable int panelId){
