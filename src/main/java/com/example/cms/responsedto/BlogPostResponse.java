@@ -1,5 +1,7 @@
 package com.example.cms.responsedto;
 
+import java.time.LocalDateTime;
+
 import com.example.cms.enums.PostType;
 
 import lombok.AllArgsConstructor;
@@ -17,4 +19,9 @@ public class BlogPostResponse {
 //	private String seoTitle;
 //	private String seoDescription;
 //	private String[] seoTopics;
+	private LocalDateTime createdAt;
+	private String createdBy;
+	private LocalDateTime lastModifiedAt;
+	private String lastModifiedBy;
+
 }
