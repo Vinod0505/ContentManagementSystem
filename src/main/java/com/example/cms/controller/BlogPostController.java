@@ -1,6 +1,7 @@
 package com.example.cms.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,14 +37,25 @@ public class BlogPostController {
 	}
 
 
-	@Operation(description = "This endpoint is used to create draft for blogPost ", responses = {
-			@ApiResponse(responseCode = "200", description = "Draft created for blogPost successfully"),
-			@ApiResponse(responseCode = "400", description = "Invalid input", content = {
+	@Operation(description = "This endpoint is used to update draft for blogPost ", responses = {
+			@ApiResponse(responseCode = "200", description = "Draft updated  successfully"),
+			@ApiResponse(responseCode = "404", description = "BlogPost not exists with the given Id", content = {
 					@Content(schema = @Schema(implementation = ErrorStructure.class))	
 			})
 	})
 	@PutMapping("/blog-posts/{blogPostId}")
 	public ResponseEntity<ResponseStructure<BlogPostResponse>> updateDraft(@RequestBody BlogPostRequest blogPostRequest, @PathVariable int blogPostId){
 		return blogPostservice.updateDraft(blogPostRequest,blogPostId);
+	}
+	
+	@Operation(description = "This endpoint is used to delete blogPost ", responses = {
+			@ApiResponse(responseCode = "200", description = "Deleted blogPost successfully"),
+			@ApiResponse(responseCode = "404", description = "blogPost not exists with given Id", content = {
+					@Content(schema = @Schema(implementation = ErrorStructure.class))	
+			})
+	})
+	@DeleteMapping("/blog-posts/{postId}")
+	public ResponseEntity<ResponseStructure<BlogPostResponse>> deleteBlogPost(@PathVariable int blogPostId){
+		return blogPostservice.deleteBlogPost(blogPostId);
 	}
 }

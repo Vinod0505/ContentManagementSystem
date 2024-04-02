@@ -101,4 +101,19 @@ public class BlogPostServiceImpl implements BlogPostService{
 		}).orElseThrow(()-> new BlogPostNotFoundByIdException("BlogPost Not Found"));
 	}
 
+
+	@Override
+	public ResponseEntity<ResponseStructure<BlogPostResponse>> deleteBlogPost(int blogPostId) {
+		
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return blogPostRepo.findById(blogPostId).map(blogPost -> {
+			if(!email.equals(blogPost.getCreatedBy()) && !email.equals(blogPost.getBlog().getUser().getEmail()))
+				throw new IllegalAccessRequestException("Faild to delete blogpost");
+			blogPostRepo.delete(blogPost);
+			return ResponseEntity.ok(responseStructure.setStatus(HttpStatus.OK.value())
+					.setMessage("BlogPost deleted successfully")
+					.setBody(mapToBlogPostResponse(blogPost)));
+		}).orElseThrow(()-> new BlogPostNotFoundByIdException("Faild to delete blogpost"));
+	}
+
 }
