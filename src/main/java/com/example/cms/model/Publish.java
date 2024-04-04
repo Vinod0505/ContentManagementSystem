@@ -31,7 +31,9 @@ public class Publish {
 	private String seoDescription;
 	private String[] seoTopics;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "publish")
 	private BlogPost blogPost;
 	
+	@OneToOne 
+	private Schedule schedule;
 }
