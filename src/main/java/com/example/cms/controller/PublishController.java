@@ -40,7 +40,7 @@ public class PublishController {
 			@ApiResponse(responseCode = "404", description = "Failed to unpublish Blogpost",
 			content = @Content(schema = @Schema(implementation = ErrorStructure.class)))
 	})
-	@PutMapping("/blog-posts/{blogPostId}")
+	@PutMapping("/blog-posts/{blogPostId}/publishes")
 	public ResponseEntity<ResponseStructure<PublishResponse>> unPublishBlogPost(@PathVariable int blogPostId){
 		return publishService.unPublishBlogPost(blogPostId);
 	}
