@@ -10,4 +10,6 @@ public interface PublishService {
 
 	ResponseEntity<ResponseStructure<PublishResponse>> publishBlogPost(PublishRequest publishRequest, int blogPostId);
 
+	ResponseEntity<ResponseStructure<PublishResponse>> unPublishBlogPost(int blogPostId);
+
 }

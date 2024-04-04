@@ -3,6 +3,7 @@ package com.example.cms.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,4 +34,15 @@ public class PublishController {
 	public ResponseEntity<ResponseStructure<PublishResponse>> publishBlogPost(@RequestBody PublishRequest publishRequest,@PathVariable int blogPostId){
 		return publishService.publishBlogPost(publishRequest,blogPostId);
 	}
+	
+	@Operation(description = "This endpoint is used to unpublish the blogPost ", responses = {
+			@ApiResponse(responseCode = "200", description = "BlogPost unpublished successfully"),
+			@ApiResponse(responseCode = "404", description = "Failed to unpublish Blogpost",
+			content = @Content(schema = @Schema(implementation = ErrorStructure.class)))
+	})
+	@PutMapping("/blog-posts/{blogPostId}")
+	public ResponseEntity<ResponseStructure<PublishResponse>> unPublishBlogPost(@PathVariable int blogPostId){
+		return publishService.unPublishBlogPost(blogPostId);
+	}
+	
 }

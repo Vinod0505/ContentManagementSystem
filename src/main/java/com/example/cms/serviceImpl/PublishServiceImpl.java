@@ -36,6 +36,7 @@ public class PublishServiceImpl implements PublishService{
 			if(!email.equals(blogPost.getCreatedBy()) && !email.equals(blogPost.getBlog().getUser().getEmail()))
 				throw new IllegalAccessRequestException("Faild to publish blogpost");
 			blogPost.setPostType(PostType.PUBLISHED);
+			blogPostRepo.save(blogPost);
 			Publish publish =  publishRepo.save(mapToPublishEntity(publishRequest, new Publish()));
 			publish.setBlogPost(blogPost);
 			return ResponseEntity.ok(responseStructure.setStatus(HttpStatus.OK.value())
@@ -62,4 +63,23 @@ public class PublishServiceImpl implements PublishService{
 				PostType.PUBLISHED);
 	}
 
+
+
+	@Override
+	public ResponseEntity<ResponseStructure<PublishResponse>> unPublishBlogPost(int blogPostId) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		return blogPostRepo.findById(blogPostId).map( blogPost ->{
+			if(!email.equals(blogPost.getCreatedBy()) && !email.equals(blogPost.getBlog().getUser().getEmail()))
+				throw new IllegalAccessRequestException("Faild to publish blogpost");
+			blogPost.setPostType(PostType.DRAFT);
+			if(blogPost.getPostType()!= PostType.PUBLISHED)
+				blogPostRepo.save(blogPost);
+
+			return ResponseEntity.ok(responseStructure.setStatus(HttpStatus.OK.value())
+					.setMessage("blogPost unpublished suucessfully")
+					.setBody(mapToPublishResponse(new Publish())));
+		}).orElseThrow(()-> new BlogPostNotFoundByIdException("Failed to unpublish the blog with ID"));
+
+	}
 }
